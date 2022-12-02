@@ -13,11 +13,6 @@ const (
 )
 
 const (
-	Play    = "Play"
-	Outcome = "Outcome"
-)
-
-const (
 	Win  = 6
 	Loss = 0
 	Draw = 3
