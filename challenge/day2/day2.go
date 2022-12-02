@@ -150,7 +150,6 @@ func day2PreBuild(path string) []PlayRound {
 
 	return playRoundList
 }
-
 func partA(rl []PlayRound) int {
 	score := 0
 	for _, round := range rl {

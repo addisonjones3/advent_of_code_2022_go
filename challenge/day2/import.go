@@ -19,24 +19,24 @@ func AddCommandsTo(root *cobra.Command) {
 
 func aCommand() *cobra.Command {
 	path := "challenge/day2/input.txt"
-	roundList := day2PreBuild(path)
+	playRoundList := day2PreBuild(path)
 	return &cobra.Command{
 		Use:   "a",
 		Short: "Day 2, Problem A",
 		Run: func(_ *cobra.Command, _ []string) {
-			fmt.Printf("Answer: %d\n", partA(roundList))
+			fmt.Printf("Answer: %d\n", partA(playRoundList))
 		},
 	}
 }
 
 func bCommand() *cobra.Command {
 	path := "challenge/day2/input.txt"
-	roundList := day2PreBuildOutcome(path)
+	outcomeRoundList := day2PreBuildOutcome(path)
 	return &cobra.Command{
 		Use:   "b",
 		Short: "Day 2, Problem B",
 		Run: func(_ *cobra.Command, _ []string) {
-			fmt.Printf("Answer: %d\n", partB(roundList))
+			fmt.Printf("Answer: %d\n", partB(outcomeRoundList))
 		},
 	}
 }
