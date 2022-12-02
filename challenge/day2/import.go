@@ -22,7 +22,7 @@ func aCommand() *cobra.Command {
 	roundList := day2PreBuild(path)
 	return &cobra.Command{
 		Use:   "a",
-		Short: "Day 1, Problem A",
+		Short: "Day 2, Problem A",
 		Run: func(_ *cobra.Command, _ []string) {
 			fmt.Printf("Answer: %d\n", partA(roundList))
 		},
@@ -34,7 +34,7 @@ func bCommand() *cobra.Command {
 	roundList := day2PreBuildOutcome(path)
 	return &cobra.Command{
 		Use:   "b",
-		Short: "Day 1, Problem B",
+		Short: "Day 2, Problem B",
 		Run: func(_ *cobra.Command, _ []string) {
 			fmt.Printf("Answer: %d\n", partB(roundList))
 		},
