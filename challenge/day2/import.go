@@ -9,7 +9,7 @@ import (
 func AddCommandsTo(root *cobra.Command) {
 	day := &cobra.Command{
 		Use:   "2",
-		Short: "Problems for Day1",
+		Short: "Problems for Day2",
 	}
 
 	day.AddCommand(aCommand())
