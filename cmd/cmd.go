@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/addisonjones3/aoc22/challenge/day1"
+	"github.com/addisonjones3/aoc22/challenge/day2"
 	"github.com/spf13/cobra"
 )
 
@@ -26,6 +27,7 @@ to quickly create a Cobra application.`,
 
 func addDays(cmd *cobra.Command) {
 	day1.AddCommandsTo(rootCmd)
+	day2.AddCommandsTo(rootCmd)
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

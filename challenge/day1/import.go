@@ -14,8 +14,6 @@ func AddCommandsTo(root *cobra.Command) {
 
 	day.AddCommand(aCommand())
 	day.AddCommand(bCommand())
-	// day.AddCommand(aSampleCommand())
-	// day.AddCommand(bSampleCommand())
 	root.AddCommand(day)
 }
 
@@ -32,19 +30,6 @@ func aCommand() *cobra.Command {
 	}
 }
 
-// func aSampleCommand() *cobra.Command {
-// 	path := "challenge/day1/sample_input.txt"
-// 	packMap := preBuildDay1(path)
-
-// 	return &cobra.Command{
-// 		Use:   "asample",
-// 		Short: "Day 1, Problem A",
-// 		Run: func(_ *cobra.Command, _ []string) {
-// 			fmt.Printf("Answer: %d\n", partA(packMap))
-// 		},
-// 	}
-// }
-
 func bCommand() *cobra.Command {
 	path := "challenge/day1/input.txt"
 	packMap := preBuildDay1(path)
@@ -56,16 +41,3 @@ func bCommand() *cobra.Command {
 		},
 	}
 }
-
-// func bSampleCommand() *cobra.Command {
-// 	path := "challenge/day1/sample_input.txt"
-// 	packMap := preBuildDay1(path)
-
-// 	return &cobra.Command{
-// 		Use:   "sampleB",
-// 		Short: "Day 1, Problem B",
-// 		Run: func(_ *cobra.Command, _ []string) {
-// 			fmt.Printf("Answer: %d\n", partB(packMap))
-// 		},
-// 	}
-// }
