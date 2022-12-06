@@ -56,9 +56,6 @@ func (sStack *Stack) MoveCrates(tStack *Stack, c int) {
 			// fmt.Println("New sStack: ", sStack.CrateVals())
 		}
 		i++
-		if i == c {
-			// fmt.Println("Ending")
-		}
 	}
 }
 
