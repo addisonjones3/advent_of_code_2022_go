@@ -11,19 +11,6 @@ var testCrateStringFull = "[D] [H] [L] [N] [N] [M] [D] [D] [B]"
 var testCrateStringPartial = "[D] [H]     [N] [N] [M] [D] [D] [B]"
 var testMoveString = "move 2 from 1 to 2"
 
-func TestMove(t *testing.T) {
-	crateA := NewCrate("A")
-	crateB := NewCrate("B")
-	crateC := NewCrate("C")
-	crateD := NewCrate("D")
-	stackA := &Stack{Crates: []*Crate{crateA, crateB}}
-	stackB := &Stack{Crates: []*Crate{crateC, crateD}}
-
-	stackA.MoveCrates(stackB, 2)
-	fmt.Println(stackA.CrateVals())
-	fmt.Println(stackB.CrateVals())
-}
-
 func TestYardParse(t *testing.T) {
 	// crateList = strings.Replace(crateList, " ", "", -1)
 	numList := strings.Fields(testCrateYard)

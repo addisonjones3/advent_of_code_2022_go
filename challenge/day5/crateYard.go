@@ -42,23 +42,6 @@ type Stack struct {
 	Crates []*Crate
 }
 
-func (sStack *Stack) MoveCrates(tStack *Stack, c int) {
-	i := 0
-	for i < c {
-		tStack.Crates = append(tStack.Crates, sStack.Crates[len(sStack.Crates)-1])
-		// fmt.Println("New tStack: ", tStack.CrateVals())
-
-		if len(sStack.Crates) == 1 {
-			// fmt.Println("sCrate reset")
-			sStack.Crates = make([]*Crate, 0)
-		} else {
-			sStack.Crates = sStack.Crates[:len(sStack.Crates)-1]
-			// fmt.Println("New sStack: ", sStack.CrateVals())
-		}
-		i++
-	}
-}
-
 func (s *Stack) CrateVals() []string {
 	crateIds := make([]string, 0)
 	for _, crate := range s.Crates {
