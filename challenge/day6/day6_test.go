@@ -5,9 +5,15 @@ import (
 	"testing"
 )
 
-var testDataBuffer = "mjqjpqmgbljsphdztnvjfqwrcgsmlb"
+var testPacketDataBuffer = "mjqjpqmgbljsphdztnvjfqwrcgsmlb"
+var testMessageDataBuffer = "mjqjpqmgbljsphdztnvjfqwrcgsmlb"
 
-func TestPacketStartMarkerFromString(t *testing.T) {
-	mk := NewPacketStartMarker(testDataBuffer)
+func TestNewPacketStartMarker(t *testing.T) {
+	mk := NewPacketStartMarker(testPacketDataBuffer)
+	fmt.Println(mk.Marker.MarkerStartPos)
+}
+
+func TestNewMessageStartMarker(t *testing.T) {
+	mk := NewMessageStartMarker(testMessageDataBuffer)
 	fmt.Println(mk.Marker.MarkerStartPos)
 }
