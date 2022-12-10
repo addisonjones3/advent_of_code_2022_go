@@ -1,4 +1,4 @@
-package day1
+package day10
 
 import (
 	"fmt"
@@ -8,8 +8,8 @@ import (
 
 func AddCommandsTo(root *cobra.Command) {
 	day := &cobra.Command{
-		Use:   "1",
-		Short: "Problems for Day1",
+		Use:   "10",
+		Short: "Problems for Day10",
 	}
 
 	day.AddCommand(aCommand())
@@ -18,25 +18,25 @@ func AddCommandsTo(root *cobra.Command) {
 }
 
 func aCommand() *cobra.Command {
-	path := "challenge/day1/input.txt"
-	packMap := preBuildDay1(path)
+	path := "challenge/day10/input.txt"
+	commandLines := day10PreBuild(path)
 	return &cobra.Command{
 		Use:   "a",
-		Short: "Day 1, Problem A",
+		Short: "Day 10, Problem A",
 		Run: func(_ *cobra.Command, _ []string) {
-			fmt.Printf("Answer: %d\n", partA(packMap))
+			fmt.Printf("Answer: %d\n", partA(commandLines))
 		},
 	}
 }
 
 func bCommand() *cobra.Command {
-	path := "challenge/day1/input.txt"
-	packMap := preBuildDay1(path)
+	path := "challenge/day10/input.txt"
+	commandLines := day10PreBuild(path)
 	return &cobra.Command{
 		Use:   "b",
-		Short: "Day 1, Problem B",
+		Short: "Day 10, Problem B",
 		Run: func(_ *cobra.Command, _ []string) {
-			fmt.Printf("Answer: %d\n", partB(packMap))
+			fmt.Printf("Answer: %d\n", partB(commandLines))
 		},
 	}
 }
