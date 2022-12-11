@@ -35,6 +35,13 @@ func partA(commandLines []string) int {
 
 }
 
-func partB(bridgeInput []string) int {
-	return 1
+func partB(commandLines []string) string {
+	xreg, _ := NewRegister("X Reg", X)
+	circ := InitClockCircuit([]*Register{xreg})
+
+	for _, cLine := range commandLines {
+		cc, _ := CircuitCommandFromString(cLine)
+		circ.HandleCommand(cc)
+	}
+	return circ.DrawCRT(X, 40)
 }

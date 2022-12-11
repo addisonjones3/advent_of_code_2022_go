@@ -61,28 +61,27 @@ func TestCycleStrength(t *testing.T) {
 	circ := InitClockCircuit([]*Register{xreg})
 
 	cCommands := GenCommands(LongTestLines)
-	// fmt.Println("len commands", len(cCommands))
 
 	for i := 0; i < len(cCommands); i++ {
-		// cc := cCommands[i]
 		circ.HandleCommand(cCommands[i])
-		// xr := circ.GetReg(X)
-		// if len(xr.CycleValMap) >= 218 {
-		// 	fmt.Println("command", i)
-		// 	fmt.Println(cc.CircuitCommandType, cc.Val)
-		// 	fmt.Println(xr.CycleValMap[(len(xr.CycleValMap))])
-		// }
+	}
+	xr := circ.RegisterMap[X]
+	for i := 1; i < 22; i++ {
+		fmt.Println(i, xr.CycleValMap[i])
 	}
 
-	xr := circ.GetReg(X)
+	// cycles := []int{20, 60, 100, 140, 180, 220}
+	// fmt.Println(circ.RegTypeSigStrength(X, cycles))
+}
 
-	cycles := []int{20, 60, 100, 140, 180, 220}
-	xr.PrintSignalStrength(1)
-	xr.PrintSignalStrength(20)
-	xr.PrintSignalStrength(60)
-	xr.PrintSignalStrength(100)
-	xr.PrintSignalStrength(140)
-	xr.PrintSignalStrength(180)
-	xr.PrintSignalStrength(220)
-	fmt.Println(circ.RegTypeSigStrength(X, cycles))
+func TestDrawCRT(t *testing.T) {
+	xreg, _ := NewRegister("X Reg", X)
+	circ := InitClockCircuit([]*Register{xreg})
+
+	cCommands := GenCommands(LongTestLines)
+
+	for i := 0; i < len(cCommands); i++ {
+		circ.HandleCommand(cCommands[i])
+	}
+	fmt.Println(circ.DrawCRT(X, 40))
 }

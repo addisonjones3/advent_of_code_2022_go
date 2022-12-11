@@ -40,16 +40,12 @@ func CircuitCommandFromString(s string) (*CircuitCommand, error) {
 type Register struct {
 	Name        string
 	CurrentVal  int
-	CycleValMap map[int]int
+	CycleValMap map[int]*Cycle
 	RegisterType
 }
 
 func (r *Register) SignalStrength(cycle int) int {
-	if cycle == 1 {
-		return r.CycleValMap[cycle] * cycle
-	} else {
-		return r.CycleValMap[cycle-1] * cycle
-	}
+	return r.CycleValMap[cycle].StartVal * cycle
 }
 
 func (r *Register) PrintSignalStrength(cycle int) {
@@ -60,8 +56,12 @@ func (r *Register) PrintSignalStrength(cycle int) {
 func NewRegister(name string, regType RegisterType) (*Register, error) {
 	switch regType {
 	case X:
+		// cycle1 := &Cycle{StartVal: 1, EndVal: 1}
 		return &Register{
-			Name: name, CurrentVal: 1, CycleValMap: map[int]int{1: 1}, RegisterType: regType,
+			Name:         name,
+			CurrentVal:   1,
+			CycleValMap:  make(map[int]*Cycle),
+			RegisterType: regType,
 		}, nil
 	}
 	return nil, errors.New("no valid registertype passed")
@@ -69,9 +69,14 @@ func NewRegister(name string, regType RegisterType) (*Register, error) {
 
 type RegisterMap map[RegisterType]*Register
 
+type Cycle struct {
+	StartVal int
+	EndVal   int
+}
+
 type ClockCircuit struct {
 	RegisterMap
-	CurrCycle int
+	CycleNumber int
 }
 
 func (cc *ClockCircuit) GetReg(rtype RegisterType) *Register {
@@ -81,7 +86,7 @@ func (cc *ClockCircuit) GetReg(rtype RegisterType) *Register {
 func InitClockCircuit(registers []*Register) *ClockCircuit {
 	cc := &ClockCircuit{
 		RegisterMap: make(RegisterMap),
-		CurrCycle:   1,
+		CycleNumber: 0,
 	}
 	for _, reg := range registers {
 		cc.AddRegister(reg.Name, reg.RegisterType)
@@ -101,17 +106,29 @@ func (cc *ClockCircuit) HandleCommand(c *CircuitCommand) {
 	switch c.CircuitCommandType {
 	case addx:
 		reg := cc.RegisterMap[X]
-		reg.CycleValMap[cc.CurrCycle] = reg.CurrentVal
-		reg.CurrentVal += c.Val
-		reg.CycleValMap[cc.CurrCycle+1] += reg.CurrentVal
-
-		cc.CurrCycle += 2
-	case noop:
-		for rType := range cc.RegisterMap {
-			reg := cc.RegisterMap[rType]
-			reg.CycleValMap[cc.CurrCycle] = reg.CurrentVal
+		if _, ok := reg.CycleValMap[cc.CycleNumber]; !ok {
+			reg.CycleValMap[cc.CycleNumber] = &Cycle{StartVal: 1, EndVal: 1}
 		}
-		cc.CurrCycle += 1
+		currCycle := reg.CycleValMap[cc.CycleNumber]
+
+		cc.CycleNumber++
+		reg.CycleValMap[cc.CycleNumber] = &Cycle{
+			StartVal: currCycle.EndVal,
+			EndVal:   currCycle.EndVal,
+		}
+		cc.CycleNumber++
+		reg.CycleValMap[cc.CycleNumber] = &Cycle{
+			StartVal: currCycle.EndVal,
+			EndVal:   currCycle.EndVal + c.Val,
+		}
+	case noop:
+		reg := cc.RegisterMap[X]
+		currCycle := reg.CycleValMap[cc.CycleNumber]
+		cc.CycleNumber++
+		reg.CycleValMap[cc.CycleNumber] = &Cycle{
+			StartVal: currCycle.EndVal,
+			EndVal:   currCycle.EndVal,
+		}
 	}
 }
 
@@ -131,8 +148,36 @@ func (cc *ClockCircuit) RegTypeSigStrength(regType RegisterType, cycles []int) i
 }
 
 func (cc ClockCircuit) DrawCRT(regType RegisterType, rowWidth int) string {
-	// reg := cc.RegisterMap[regType]
-	// pixelRows := make([]string, len(reg.CycleValMap)/rowWidth)
-
-	return "done"
+	onPxVal := "#"
+	offPxVal := "."
+	reg := cc.RegisterMap[regType]
+	// pixelRows := make([]string, (len(reg.CycleValMap)/rowWidth)+1)
+	rowBuilder := strings.Builder{}
+	for i := 0; i < len(reg.CycleValMap)-1; i++ {
+		spriteMiddle := reg.CycleValMap[i+1].StartVal
+		rowLoc := i - (((i) / rowWidth) * rowWidth)
+		// fmt.Println(rowLoc)
+		// fmt.Println(i, "Sprite middle at", spriteMiddle)
+		spriteLocs := map[int]string{
+			spriteMiddle - 1: onPxVal,
+			spriteMiddle:     onPxVal,
+			spriteMiddle + 1: onPxVal,
+		}
+		if _, ok := spriteLocs[rowLoc]; ok {
+			rowBuilder.WriteString(string(onPxVal))
+		} else {
+			rowBuilder.WriteString(string(offPxVal))
+		}
+		// fmt.Println(rowBuilder.String())
+		if rowLoc == rowWidth-1 {
+			rowBuilder.WriteString("\n")
+			// pixelRows = append(pixelRows, rowBuilder.String())
+			// fmt.Println(pixelRows)
+			// fmt.Println("Reset")
+			// rowBuilder.Reset()
+			// rowBuilder = strings.Builder{}
+		}
+	}
+	// return strings.Join(pixelRows, "\n")
+	return rowBuilder.String()
 }

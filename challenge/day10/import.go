@@ -36,7 +36,7 @@ func bCommand() *cobra.Command {
 		Use:   "b",
 		Short: "Day 10, Problem B",
 		Run: func(_ *cobra.Command, _ []string) {
-			fmt.Printf("Answer: %d\n", partB(commandLines))
+			fmt.Printf("Answer: \n%s\n", partB(commandLines))
 		},
 	}
 }
