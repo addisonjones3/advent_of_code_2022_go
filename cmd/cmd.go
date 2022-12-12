@@ -8,6 +8,7 @@ import (
 
 	"github.com/addisonjones3/aoc22/challenge/day1"
 	"github.com/addisonjones3/aoc22/challenge/day10"
+	"github.com/addisonjones3/aoc22/challenge/day11"
 	"github.com/addisonjones3/aoc22/challenge/day2"
 	"github.com/addisonjones3/aoc22/challenge/day3"
 	"github.com/addisonjones3/aoc22/challenge/day4"
@@ -44,6 +45,7 @@ func addDays(cmd *cobra.Command) {
 	day8.AddCommandsTo(rootCmd)
 	day9.AddCommandsTo(rootCmd)
 	day10.AddCommandsTo(rootCmd)
+	day11.AddCommandsTo(rootCmd)
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
